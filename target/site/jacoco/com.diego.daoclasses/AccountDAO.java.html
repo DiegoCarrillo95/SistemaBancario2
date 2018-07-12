@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AccountDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sistema-bancario</a> &gt; <a href="index.source.html" class="el_package">com.diego.daoclasses</a> &gt; <span class="el_source">AccountDAO.java</span></div><h1>AccountDAO.java</h1><pre class="source lang-java linenums">package com.diego.daoclasses;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+import com.diego.models.Account;
+
+@Repository
+<span class="nc" id="L13">public class AccountDAO {</span>
+
+	// Account database:
+	// id - ClientId - Balance
+
+	@Autowired
+	JdbcTemplate jdbcTemplate;
+
+	public Account getAccountById(int id) {
+<span class="nc" id="L22">		List&lt;Account&gt; accounts = jdbcTemplate.query(&quot;select * from accounts where id = ?&quot;, new Object[] { id },</span>
+				new BeanPropertyRowMapper&lt;Account&gt;(Account.class));
+
+<span class="nc" id="L25">		return accounts.get(0);</span>
+	}
+
+	public List&lt;Account&gt; getClientAccounts(int clientId) {
+<span class="nc" id="L29">		return jdbcTemplate.query(&quot;select * from accounts where clientId = ?&quot;, new Object[] { clientId },</span>
+				new BeanPropertyRowMapper&lt;Account&gt;(Account.class));
+	}
+
+	public void insertAccount(Account account) {
+
+<span class="nc" id="L35">	}</span>
+
+	public void deleteAccount(Account account) {
+
+<span class="nc" id="L39">	}</span>
+
+	public void uptadeAccount(Account account) {
+<span class="nc" id="L42">		jdbcTemplate.update(&quot;update accounts set balance = ? where id = ? and clientId = ?;&quot;,</span>
+<span class="nc" id="L43">				new Object[] { account.getBalance(), account.getId(), account.getClientId() });</span>
+
+<span class="nc" id="L45">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>

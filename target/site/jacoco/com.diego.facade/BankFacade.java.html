@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BankFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sistema-bancario</a> &gt; <a href="index.source.html" class="el_package">com.diego.facade</a> &gt; <span class="el_source">BankFacade.java</span></div><h1>BankFacade.java</h1><pre class="source lang-java linenums">package com.diego.facade;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.diego.models.Account;
+import com.diego.models.Client;
+import com.diego.services.AccountException;
+import com.diego.services.AccountServices;
+import com.diego.services.ClientException;
+import com.diego.services.ClientServices;
+
+@Component
+<span class="nc" id="L18">public class BankFacade {</span>
+
+<span class="nc" id="L20">	private static Logger LOGGER = LoggerFactory.getLogger(BankFacade.class);</span>
+
+	@Autowired
+	private ClientServices clientServices;
+
+	@Autowired
+	private AccountServices accountServices;
+
+	private List&lt;Client&gt; clients;
+
+	
+	public void printClients() {
+<span class="nc" id="L32">		clients = clientServices.getClientList();</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">		for (Client client : clients) {</span>
+<span class="nc" id="L34">			LOGGER.info(&quot;{}&quot;, client);</span>
+<span class="nc" id="L35">		}</span>
+<span class="nc" id="L36">	}</span>
+
+	public void addAccount(String clientId) {
+
+<span class="nc" id="L40">	}</span>
+
+	public void addClient(String name) {
+
+<span class="nc" id="L44">	}</span>
+
+	public void transfer(int clientFromId, int accountFromId, int clientToId, int accountToId, double value) {
+		// TODO: teste de integração
+		try {
+<span class="nc" id="L49">			Account accountFrom = clientServices.getClientAccount(clientFromId, accountFromId);</span>
+<span class="nc" id="L50">			Account accountTo = clientServices.getClientAccount(clientToId, accountToId);</span>
+			
+			//TODO: transaction
+<span class="nc" id="L53">			accountServices.creditAccount(accountFrom.getId(), value);</span>
+<span class="nc" id="L54">			accountServices.debitAccount(accountTo.getId(), value);</span>
+<span class="nc" id="L55">			LOGGER.info(&quot;{}&quot;, &quot;Transfer succesfully executed&quot;);</span>
+
+<span class="nc" id="L57">		} catch (ClientException e) {</span>
+<span class="nc" id="L58">			LOGGER.info(e.getMessage());</span>
+
+<span class="nc" id="L60">		} catch (AccountException e) {</span>
+<span class="nc" id="L61">			LOGGER.info(e.getMessage());</span>
+<span class="nc" id="L62">		}</span>
+<span class="nc" id="L63">	}</span>
+
+	public void deposit(int clientId, int accountId, double value) {
+		// TODO: teste de integração
+		try {
+<span class="nc" id="L68">			Account account = clientServices.getClientAccount(clientId, accountId);</span>
+<span class="nc" id="L69">			accountServices.creditAccount(account.getId(), value);</span>
+<span class="nc" id="L70">			LOGGER.info(&quot;{}&quot;, &quot;Deposit succesfully executed&quot;);</span>
+
+<span class="nc" id="L72">		} catch (ClientException e) {</span>
+<span class="nc" id="L73">			LOGGER.info(e.getMessage());</span>
+
+<span class="nc" id="L75">		} catch (AccountException e) {</span>
+<span class="nc" id="L76">			LOGGER.info(e.getMessage());</span>
+<span class="nc" id="L77">		}</span>
+<span class="nc" id="L78">	}</span>
+
+	public void withdraw(int clientId, int accountId, double value) {
+		// TODO: teste de integração
+		try {
+<span class="nc" id="L83">			Account account = clientServices.getClientAccount(clientId, accountId);</span>
+<span class="nc" id="L84">			accountServices.debitAccount(account.getId(), value);</span>
+<span class="nc" id="L85">			LOGGER.info(&quot;{}&quot;, &quot;Withdraw succesfully executed&quot;);</span>
+
+<span class="nc" id="L87">		} catch (ClientException e) {</span>
+<span class="nc" id="L88">			LOGGER.info(e.getMessage());</span>
+
+<span class="nc" id="L90">		} catch (AccountException e) {</span>
+<span class="nc" id="L91">			LOGGER.info(e.getMessage());</span>
+<span class="nc" id="L92">		}</span>
+<span class="nc" id="L93">	}</span>
+
+	public void printBalance(int clientId, int accountId) {
+		// TODO: teste de integração
+		try {
+<span class="nc" id="L98">			Account account = clientServices.getClientAccount(clientId, accountId);</span>
+<span class="nc" id="L99">			LOGGER.info(&quot;Client Balance: {}&quot;, String.format(&quot;R$ %.2f&quot;, account.getBalance()));</span>
+
+<span class="nc" id="L101">		} catch (ClientException e) {</span>
+<span class="nc" id="L102">			LOGGER.info(e.getMessage());</span>
+
+<span class="nc" id="L104">		} catch (AccountException e) {</span>
+<span class="nc" id="L105">			LOGGER.info(e.getMessage());</span>
+<span class="nc" id="L106">		}</span>
+<span class="nc" id="L107">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>
